@@ -21,3 +21,14 @@ ENV PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
 RUN yes | android-sdk-linux/tools/bin/sdkmanager --licenses
 
 ENV GRADLE_USER_HOME=$PWD/.gradle
+
+# Install Fastlane
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y --allow-unauthenticated build-essential git ruby-full && \
+    gem install rake && \
+    gem install fastlane && \
+    gem install bundler
+# Clean up
+RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    apt-get autoremove -y && \
+    apt-get clean
